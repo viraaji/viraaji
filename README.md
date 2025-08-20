@@ -46,7 +46,7 @@ I'm a **PhD Candidate in Computer Science** at Kennesaw State University, advanc
 
 1. **"A survey on security and privacy of federated learning"** - Future Generation Computer Systems, 2021 *(Highly Cited - FGCS Best Paper Award 2022)*
 
-2. **"LLMSmartSec: Smart Contract Security Auditing with LLM and Annotated Control Flow Graph"** - IEEE International Conference on Blockchain, 2024
+2. **"LLMSmartSec: Smart Contract Security Auditing with LLM and Annotated Control Flow Graph"** - IEEE Blockchain, 2024
 
 3. **"An AI Multi-Model Approach to DeFi Project Trust Scoring and Security"** - IEEE Blockchain, 2024
 
