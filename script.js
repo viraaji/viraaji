@@ -15,9 +15,12 @@ let followerY = 0;
 // ===========================
 document.addEventListener('DOMContentLoaded', function() {
     // Hide loader after page loads
-    setTimeout(() => {
-        document.getElementById('loader').classList.add('hidden');
-    }, 1000);
+    const loader = document.getElementById('loader');
+    if (loader) {
+        setTimeout(() => {
+            loader.classList.add('hidden');
+        }, 1000);
+    }
 
     // Initialize all components
     initializeCustomCursor();
@@ -28,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initializeBackToTop();
     initializeAnimations();
     initializeSmoothScroll();
+    initializeThemeToggle();
+    initializePublicationFilter();
 });
 
 // ===========================
@@ -38,11 +43,11 @@ function initializeCustomCursor() {
     const follower = document.querySelector('.cursor-follower');
     const cursorText = document.querySelector('.cursor-text');
 
-    // Check if it's a touch device
-    if ('ontouchstart' in window) {
-        cursor.style.display = 'none';
-        follower.style.display = 'none';
-        cursorText.style.display = 'none';
+    // Check if elements exist and if it's a touch device
+    if (!cursor || !follower || !cursorText || 'ontouchstart' in window) {
+        if (cursor) cursor.style.display = 'none';
+        if (follower) follower.style.display = 'none';
+        if (cursorText) cursorText.style.display = 'none';
         return;
     }
 
@@ -88,7 +93,7 @@ function initializeCustomCursor() {
 
     // Add hover effect for interactive elements
     const interactiveElements = document.querySelectorAll(
-        'a, button, input, textarea, .social-link, .nav-link, .contact-card, .skill-tag, .tech-tag, .award-card, .publication-card, .timeline-content'
+        'a, button, input, textarea, .social-link, .nav-link, .skill-tag, .award-item, .publication-card, .experience-card, .filter-btn'
     );
 
     interactiveElements.forEach(el => {
@@ -301,11 +306,11 @@ function initializeTypewriter() {
     if (!typewriterElement) return;
 
     const roles = [
-        'AI Security Researcher',
-        'PhD Candidate',
-        'Former VP at JP Morgan Chase',
-        'Machine Learning Expert',
-        'Federated Learning Specialist'
+        'Security Frameworks',
+        'Risk Assessment',
+        'Vulnerability Detection',
+        'LLM Security',
+        'Federated Learning'
     ];
 
     let roleIndex = 0;
@@ -429,42 +434,45 @@ function initializeAnimations() {
         rootMargin: '0px 0px -100px 0px'
     };
 
-    const observer = new IntersectionObserver((entries) => {
+    // Observer for sections
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                sectionObserver.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe sections
+    const sections = document.querySelectorAll('.section-animated');
+    sections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+
+    // Observer for individual elements
+    const elementObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+                elementObserver.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
     // Add fade-up animation to elements
     const animatedElements = document.querySelectorAll(
-        '.section-title, .timeline-item, .publication-card, .skill-category, .award-card, .contact-card'
+        '.publication-card, .skill-category, .award-item, .experience-card'
     );
 
     animatedElements.forEach(el => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
+        elementObserver.observe(el);
     });
 
-    // Stats counter animation
-    const statCards = document.querySelectorAll('.stat-card h3');
-    const statsObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounter(entry.target);
-                statsObserver.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    statCards.forEach(stat => {
-        statsObserver.observe(stat);
-    });
 }
 
 // ===========================
@@ -518,6 +526,72 @@ function updateThemeColor() {
 
 // Uncomment to enable dynamic theme color
 // window.addEventListener('scroll', updateThemeColor);
+
+// ===========================
+// Theme Toggle
+// ===========================
+function initializeThemeToggle() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (!themeToggle) return;
+
+    // Check for saved theme preference or default to dark
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', currentTheme);
+
+    themeToggle.addEventListener('click', () => {
+        const theme = document.documentElement.getAttribute('data-theme');
+        const newTheme = theme === 'dark' ? 'light' : 'dark';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+}
+
+// ===========================
+// Publication Filter
+// ===========================
+function initializePublicationFilter() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const publications = document.querySelectorAll('.publication-card');
+    
+    if (!filterButtons.length || !publications.length) return;
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Update active button
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            const filter = button.getAttribute('data-filter');
+
+            // Show/hide publications
+            publications.forEach(pub => {
+                if (filter === 'all') {
+                    pub.style.display = 'block';
+                    setTimeout(() => {
+                        pub.style.opacity = '1';
+                        pub.style.transform = 'translateY(0)';
+                    }, 10);
+                } else {
+                    const year = pub.getAttribute('data-year');
+                    if (year === filter) {
+                        pub.style.display = 'block';
+                        setTimeout(() => {
+                            pub.style.opacity = '1';
+                            pub.style.transform = 'translateY(0)';
+                        }, 10);
+                    } else {
+                        pub.style.opacity = '0';
+                        pub.style.transform = 'translateY(20px)';
+                        setTimeout(() => {
+                            pub.style.display = 'none';
+                        }, 300);
+                    }
+                }
+            });
+        });
+    });
+}
 
 // ===========================
 // Console Easter Egg
