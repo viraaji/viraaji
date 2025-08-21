@@ -85,8 +85,7 @@ I'm a **PhD Candidate in Computer Science** at Kennesaw State University, advanc
 - **AWS Certified Developer - Associate**
 - **AWS Certified Cloud Practitioner**
 - **Advanced AI & ML Certification** - IIIT Hyderabad
-- **Certified DevOps Master (CDM)** - GAQM
-- **Sun Certified Java Programmer** - Sun Microsystems
+
 
 
 
