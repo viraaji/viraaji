@@ -566,6 +566,11 @@ section {
     gap: 10px;
 }
 
+.skill-category h3 i {
+    color: var(--primary-color);
+    font-size: 1.2em;
+}
+
 .skill-tags {
     display: flex;
     flex-wrap: wrap;
@@ -665,6 +670,11 @@ section {
     font-size: 2.5em;
     margin-bottom: 15px;
     display: block;
+    color: var(--primary-color);
+}
+
+.research-icon i {
+    display: inline-block;
 }
 
 .research-card h3 {
@@ -805,6 +815,11 @@ section {
 .award-icon {
     font-size: 2em;
     animation: bounce 2s infinite;
+    color: var(--accent-color);
+}
+
+.award-icon i {
+    display: inline-block;
 }
 
 @keyframes bounce {
@@ -827,6 +842,13 @@ section {
 .contact-info p {
     margin-bottom: 15px;
     font-size: 1.1em;
+}
+
+.contact-info p i {
+    color: var(--primary-color);
+    margin-right: 10px;
+    width: 20px;
+    text-align: center;
 }
 
 .contact-info a {
