@@ -98,7 +98,6 @@ I'm a **PhD Candidate in Computer Science** at Kennesaw State University, advanc
 
 ## 📫 Connect With Me
 
-- 📧 Email: viraaji.m@gmail.com
 - 💼 LinkedIn: [linkedin.com/in/viraaji](https://www.linkedin.com/in/viraaji)
 - 📚 Google Scholar: [Scholar Profile](https://scholar.google.com/citations?user=2ll7FV0AAAAJ&hl=en)
 
